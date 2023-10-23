@@ -14,6 +14,7 @@ public class CharacterLocomotion : NetworkBehaviour
     public InputAction Move;
     public InputAction Look;
 
+    Rigidbody rb;
     NavMeshAgent agent;
     private float agentSpeed = 3;
 
@@ -34,11 +35,17 @@ public class CharacterLocomotion : NetworkBehaviour
         Look = MovementControl.FindAction("Look");
 
         mAnimator = GetComponent<Animator>();
-        agent = GetComponent<NavMeshAgent>();        
+        agent = GetComponent<NavMeshAgent>();
+        rb = GetComponent<Rigidbody>();
     }
     public override void OnStartClient()
     {
         base.OnStartClient();
+
+        if(isOwned)
+        {
+            CinemachineSwitcher.Instance.OnPlayerAdded(NetworkClient.connection.identity.gameObject.GetComponent<CharacterLocomotion>().cameraTarget.gameObject);
+        }
 
         CmdPlayAnimation(idle, 0.2f, 0);
     }
@@ -105,7 +112,8 @@ public class CharacterLocomotion : NetworkBehaviour
     }
     private void MoveCharacter(Vector3 movementInput)
     {
-        agent.Move(movementInput * agentSpeed * Time.fixedDeltaTime);
+        agent.velocity = movementInput * agentSpeed * velocityMultiplier;
+        //agent.Move(movementInput * agentSpeed * Time.fixedDeltaTime);
     }
     [Command(requiresAuthority = false)]
     public void CmdRotate(float yRotation)
@@ -115,4 +123,5 @@ public class CharacterLocomotion : NetworkBehaviour
         transform.rotation = Quaternion.RotateTowards(currentRotation, _targetRotation, Time.fixedDeltaTime * rotationLerp);
     }
     [SerializeField] float rotationLerp = 330;
+    [SerializeField] float velocityMultiplier = 100;
 }

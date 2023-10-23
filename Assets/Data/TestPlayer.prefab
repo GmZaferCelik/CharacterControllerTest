@@ -122,15 +122,15 @@ MonoBehaviour:
   interpolateRotation: 1
   interpolateScale: 0
   coordinateSpace: 0
-  sendIntervalMultiplier: 1
-  timelineOffset: 0
+  sendIntervalMultiplier: 5
+  timelineOffset: 1
   showGizmos: 0
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
   onlySyncOnChange: 1
-  onlySyncOnChangeCorrectionMultiplier: 2
+  onlySyncOnChangeCorrectionMultiplier: 1
   rotationSensitivity: 0.01
-  compressRotation: 0
+  compressRotation: 1
   positionPrecision: 0.01
   scalePrecision: 0.01
 --- !u!114 &1034196819555151711
@@ -177,6 +177,8 @@ MonoBehaviour:
   idle: Idle
   walk: Walk
   cameraTarget: {fileID: 9213883832287496878}
+  rotationLerp: 330
+  velocityMultiplier: 1
 --- !u!1 &4142305458882331517
 GameObject:
   m_ObjectHideFlags: 0
